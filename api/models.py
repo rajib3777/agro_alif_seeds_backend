@@ -8,6 +8,12 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    SEASON_CHOICES = (
+        ('Winter', 'শীতকালীন'),
+        ('Summer', 'গ্রীষ্মকালীন'),
+        ('Year-round', 'বারোমাসি'),
+    )
+
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name="পণ্যের নাম")
     description = models.TextField(verbose_name="বিবরণ")
@@ -15,6 +21,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     in_stock = models.BooleanField(default=True, verbose_name="স্টকে আছে")
     is_special = models.BooleanField(default=False, verbose_name="বিশেষ পণ্য")
+    season = models.CharField(max_length=20, choices=SEASON_CHOICES, default='Year-round', verbose_name="মৌসুম")
 
     def __str__(self):
         return self.name

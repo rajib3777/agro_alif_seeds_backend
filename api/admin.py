@@ -73,10 +73,10 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'in_stock', 'in_stock_label', 'is_special')
-    list_filter = ('category', 'in_stock', 'is_special')
+    list_display = ('name', 'category', 'season', 'price', 'in_stock', 'in_stock_label', 'is_special')
+    list_filter = ('category', 'season', 'in_stock', 'is_special')
     search_fields = ('name', 'description')
-    list_editable = ('in_stock', 'is_special')
+    list_editable = ('in_stock', 'is_special', 'season')
 
     def in_stock_label(self, obj):
         return "✅ ইন স্টক" if obj.in_stock else "❌ স্টক আউট"
