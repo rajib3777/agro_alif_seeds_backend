@@ -99,11 +99,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = '__all__'
 
-class ContactMessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContactMessage
-        fields = '__all__'
-
     def get_image(self, obj):
         if not obj.image:
             return None
@@ -114,3 +109,8 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(obj.image.url)
         return f'/media/{url}'
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = '__all__'
