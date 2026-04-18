@@ -33,6 +33,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
+    'unfold.contrib.filters',
+    'unfold.contrib.forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,3 +133,27 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+UNFOLD = {
+    "SITE_TITLE": "Alif Seeds Admin",
+    "SITE_HEADER": "Alif Seeds Dashboard",
+    "SITE_SYMBOL": "leaf",  # Icon for the sidebar
+    "COLORS": {
+        "primary": {
+            "50": "250, 252, 250",
+            "100": "235, 245, 235",
+            "200": "205, 225, 205",
+            "300": "165, 195, 165",
+            "400": "115, 155, 115",
+            "500": "21, 67, 22",      # darkGreen
+            "600": "18, 58, 19",
+            "700": "14, 46, 15",
+            "800": "12, 38, 12",
+            "900": "10, 31, 10",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+    },
+}
