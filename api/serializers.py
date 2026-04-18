@@ -79,7 +79,11 @@ class OrderSerializer(serializers.ModelSerializer):
         extra_weight = max(0, total_weight - 0.5)
         extra_charge = math.ceil(extra_weight) * 10
         
-        delivery_charge = base_charge + extra_charge
+        if total_weight >= 5:
+            delivery_charge = 0
+        else:
+            delivery_charge = base_charge + extra_charge
+            
         total_price = subtotal + delivery_charge
 
         order.subtotal = subtotal
