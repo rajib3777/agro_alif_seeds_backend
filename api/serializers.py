@@ -46,6 +46,12 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop('items', [])
         
+        # Create an automatic account if it doesn't exist
+        phone = validated_data.get('phone')
+        from django.contrib.auth.models import User
+        if phone and not User.objects.filter(username=phone).exists():
+            User.objects.create_user(username=phone, password=phone)
+
         # Create the order first
         order = Order.objects.create(**validated_data)
         

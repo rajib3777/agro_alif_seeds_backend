@@ -13,6 +13,35 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ('name', 'phone', 'address')
     inlines = [OrderItemInline]
     readonly_fields = ('subtotal', 'delivery_charge', 'total_price', 'created_at')
+    actions = ['export_as_csv']
+
+    def export_as_csv(self, request, queryset):
+        import csv
+        from django.http import HttpResponse
+        
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+        response.write(u'\ufeff'.encode('utf8')) # BOM for Excel
+        writer = csv.writer(response)
+        
+        writer.writerow(['Order ID', 'Name', 'Phone', 'Address', 'Subtotal', 'Delivery Charge', 'Total Price', 'Status', 'Date'])
+        
+        for obj in queryset:
+            writer.writerow([
+                obj.id, 
+                obj.name, 
+                obj.phone, 
+                obj.address, 
+                obj.subtotal, 
+                obj.delivery_charge, 
+                obj.total_price, 
+                obj.status, 
+                obj.created_at.strftime("%Y-%m-%d %H:%M")
+            ])
+            
+        return response
+    
+    export_as_csv.short_description = "নির্বাচিত অর্ডারগুলো CSV আকারে ইনপুট নিন"
     
     fieldsets = (
         ("গ্রাহকের তথ্য", {
