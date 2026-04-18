@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, Article
+from .models import Category, Product, Order, OrderItem, Article, ContactMessage
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -29,3 +29,9 @@ class CategoryAdmin(admin.ModelAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at')
     search_fields = ('title', 'content')
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone', 'created_at')
+    search_fields = ('name', 'phone', 'message')
+    readonly_fields = ('name', 'phone', 'message', 'created_at')

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, Order, OrderItem, Article
+from .models import Category, Product, Order, OrderItem, Article, ContactMessage
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -93,6 +93,11 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
+        fields = '__all__'
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
         fields = '__all__'
 
     def get_image(self, obj):

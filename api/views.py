@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Category, Product, Order, Article
-from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, ArticleSerializer
+from .models import Category, Product, Order, Article, ContactMessage
+from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, ArticleSerializer, ContactMessageSerializer
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
@@ -18,3 +18,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Article.objects.all().order_by('-created_at')
     serializer_class = ArticleSerializer
+
+class ContactMessageViewSet(viewsets.ModelViewSet):
+    queryset = ContactMessage.objects.all().order_by('-created_at')
+    serializer_class = ContactMessageSerializer
+    http_method_names = ['post']

@@ -58,3 +58,12 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=255, verbose_name="নাম")
+    phone = models.CharField(max_length=20, verbose_name="ফোন নম্বর")
+    message = models.TextField(verbose_name="বার্তা")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="পাঠানোর সময়")
+
+    def __str__(self):
+        return f"Message from {self.name}"
