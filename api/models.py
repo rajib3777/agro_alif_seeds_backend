@@ -20,10 +20,22 @@ class Product(models.Model):
         return self.name
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    )
+
     name = models.CharField(max_length=255, verbose_name="গ্রাহকের নাম")
     phone = models.CharField(max_length=20, verbose_name="ফোন নম্বর")
     address = models.TextField(verbose_name="ঠিকানা")
+    subtotal = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name="সাবটোটাল")
+    delivery_charge = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="ডেলিভারি চার্জ")
+    delivery_zone = models.CharField(max_length=50, default='Outside Dhaka', verbose_name="ডেলিভারি জোন")
     total_price = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name="মোট মূল্য")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', verbose_name="অবস্থা")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -37,3 +49,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
+
+class Article(models.Model):
+    title = models.CharField(max_length=255, verbose_name="শিরোনাম")
+    content = models.TextField(verbose_name="বিষয়বস্তু")
+    image = models.ImageField(upload_to='articles/', null=True, blank=True, verbose_name="ছবি")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="তৈরির সময়")
+
+    def __str__(self):
+        return self.title
