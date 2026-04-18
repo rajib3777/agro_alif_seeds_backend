@@ -33,9 +33,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'unfold',
-    'unfold.contrib.filters',
-    'unfold.contrib.forms',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,26 +132,75 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-UNFOLD = {
-    "SITE_TITLE": "Alif Seeds Admin",
-    "SITE_HEADER": "Alif Seeds Dashboard",
-    "SITE_SYMBOL": "leaf",  # Icon for the sidebar
-    "COLORS": {
-        "primary": {
-            "50": "250, 252, 250",
-            "100": "235, 245, 235",
-            "200": "205, 225, 205",
-            "300": "165, 195, 165",
-            "400": "115, 155, 115",
-            "500": "21, 67, 22",      # darkGreen
-            "600": "18, 58, 19",
-            "700": "14, 46, 15",
-            "800": "12, 38, 12",
-            "900": "10, 31, 10",
-        },
+JAZZMIN_SETTINGS = {
+    "site_title": "Alif Seeds Admin",
+    "site_header": "Alif Seeds Management",
+    "site_brand": "Alif Seeds Platform",
+    "site_logo": None,  # Can add a path to logo later
+    "login_logo": None,
+    "login_logo_dark": None,
+    "site_logo_classes": "img-circle",
+    "site_icon": None,
+    "welcome_sign": "Welcome to Alif Seeds Admin Panel",
+    "copyright": "Alif Seeds Ltd",
+    "search_model": ["api.Product", "api.Order"],
+    "user_avatar": None,
+    "topmenu_links": [
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Shop Frontend", "url": "http://localhost:5175", "new_window": True},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "api.Category": "fas fa-list",
+        "api.Product": "fas fa-seedling",
+        "api.Order": "fas fa-shopping-cart",
+        "api.Article": "fas fa-newspaper",
+        "api.ContactMessage": "fas fa-envelope",
     },
-    "SIDEBAR": {
-        "show_search": True,
-        "show_all_applications": True,
-    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": True,
+    "custom_css": None,
+    "custom_js": None,
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {"auth.user": "collapsible_list", "auth.group": "vertical_tabs"},
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-success",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-success",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_pro": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "simplex",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
 }

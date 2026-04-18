@@ -1,14 +1,13 @@
 from django.contrib import admin
-from unfold.admin import ModelAdmin, TabularInline
 from .models import Category, Product, Order, OrderItem, Article, ContactMessage
 
-class OrderItemInline(TabularInline):
+class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
     readonly_fields = ['product', 'quantity', 'price']
 
 @admin.register(Order)
-class OrderAdmin(ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone', 'total_price', 'status_label', 'created_at')
     list_filter = ('status', 'created_at')
     search_fields = ('name', 'phone', 'address')
@@ -44,7 +43,7 @@ class OrderAdmin(ModelAdmin):
     status_label.short_description = "অবস্থা"
 
 @admin.register(Product)
-class ProductAdmin(ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'price', 'in_stock_label', 'is_special')
     list_filter = ('category', 'in_stock', 'is_special')
     search_fields = ('name', 'description')
@@ -55,17 +54,17 @@ class ProductAdmin(ModelAdmin):
     in_stock_label.short_description = "স্টক অবস্থা"
 
 @admin.register(Category)
-class CategoryAdmin(ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 
 @admin.register(Article)
-class ArticleAdmin(ModelAdmin):
+class ArticleAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at')
     search_fields = ('title', 'content')
 
 @admin.register(ContactMessage)
-class ContactMessageAdmin(ModelAdmin):
+class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'created_at')
     search_fields = ('name', 'phone', 'message')
     readonly_fields = ('name', 'phone', 'message', 'created_at')
