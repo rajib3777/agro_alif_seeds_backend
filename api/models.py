@@ -18,8 +18,10 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="পণ্যের নাম")
     description = models.TextField(verbose_name="বিবরণ")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="মূল্য (৳)")
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="আগের মূল্য (৳)")
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     in_stock = models.BooleanField(default=True, verbose_name="স্টকে আছে")
+    stock_quantity = models.PositiveIntegerField(default=100, verbose_name="স্টক পরিমাণ")
     is_special = models.BooleanField(default=False, verbose_name="বিশেষ পণ্য")
     season = models.CharField(max_length=20, choices=SEASON_CHOICES, default='Year-round', verbose_name="মৌসুম")
 

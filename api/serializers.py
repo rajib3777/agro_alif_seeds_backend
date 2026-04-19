@@ -62,6 +62,19 @@ class OrderSerializer(serializers.ModelSerializer):
             quantity = item_data.get('quantity', 1)
             try:
                 product = Product.objects.get(id=product_id)
+                
+                # STOCK CONTROL LOGIC
+                if product.stock_quantity < quantity:
+                    raise serializers.ValidationError(
+                        f"ক্ষমা করবেন, {product.name} এর পর্যপ্ত স্টক নেই। বর্তমানে মাত্র {product.stock_quantity} টি স্টকে আছে।"
+                    )
+                
+                # Decrement stock
+                product.stock_quantity -= quantity
+                if product.stock_quantity == 0:
+                    product.in_stock = False
+                product.save()
+
                 item_price = product.price * quantity
                 subtotal += item_price
                 total_weight += quantity
@@ -72,7 +85,7 @@ class OrderSerializer(serializers.ModelSerializer):
                     price=product.price
                 )
             except Product.DoesNotExist:
-                pass  # Skip invalid products gracefully
+                pass
 
         import math
         if order.delivery_zone == 'Dhaka City':
@@ -97,6 +110,30 @@ class OrderSerializer(serializers.ModelSerializer):
         order.total_price = total_price
         order.save()
         return order
+
+class PublicOrderItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.ReadOnlyField(source='product.name')
+
+    class Meta:
+        model = OrderItem
+        fields = ['product_name', 'quantity']
+
+class PublicOrderSerializer(serializers.ModelSerializer):
+    items = PublicOrderItemSerializer(many=True, read_only=True)
+    customer_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = ['id', 'customer_name', 'total_price', 'created_at', 'items']
+
+    def get_customer_name(self, obj):
+        # Mask name for privacy, e.g., "Rahim Mia" -> "Rahim***"
+        name = obj.name or "একজন গ্রাহক"
+        parts = name.split()
+        if len(parts) > 1:
+            return parts[0] + " সাহেব"
+        return name[:3] + "***"
+
 
 class ArticleSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
