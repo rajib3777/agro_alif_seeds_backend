@@ -1,10 +1,15 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, Article, ContactMessage
+from .models import Category, Product, Order, OrderItem, Article, ContactMessage, Tag
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
     readonly_fields = ['product', 'quantity', 'price']
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'color')
+    list_editable = ('color',)
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -74,9 +79,10 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'season', 'price', 'in_stock', 'in_stock_label', 'is_special')
-    list_filter = ('category', 'season', 'in_stock', 'is_special')
+    list_filter = ('category', 'season', 'in_stock', 'is_special', 'product_tags')
     search_fields = ('name', 'description')
     list_editable = ('in_stock', 'is_special', 'season')
+    filter_horizontal = ('product_tags',)
 
     def in_stock_label(self, obj):
         return "✅ ইন স্টক" if obj.in_stock else "❌ স্টক আউট"

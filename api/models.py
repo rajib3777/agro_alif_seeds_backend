@@ -7,6 +7,22 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    NAME_CHOICES = (
+        ('Special', 'সেরা পণ্য'),
+        ('Uncommon', 'আনকমন'),
+        ('Offer', 'অফার'),
+        ('Tested', 'পরিক্ষিত'),
+        ('Popular', 'পপুলার'),
+        ('TwelveMonth', '১২ মাস'),
+        ('New', 'নতুন পণ্য'),
+    )
+    name = models.CharField(max_length=50, choices=NAME_CHOICES, unique=True, verbose_name="ট্যাগের নাম")
+    color = models.CharField(max_length=50, default='bg-gold', verbose_name="ব্যাকগ্রাউন্ড ক্লাস")
+
+    def __str__(self):
+        return dict(self.NAME_CHOICES).get(self.name, self.name)
+
 class Product(models.Model):
     SEASON_CHOICES = (
         ('Winter', 'শীতকালীন'),
@@ -19,11 +35,13 @@ class Product(models.Model):
     description = models.TextField(verbose_name="বিবরণ")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="মূল্য (৳)")
     original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="আগের মূল্য (৳)")
+    cashback_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="ক্যাশব্যাক (৳)")
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     in_stock = models.BooleanField(default=True, verbose_name="স্টকে আছে")
     stock_quantity = models.PositiveIntegerField(default=100, verbose_name="স্টক পরিমাণ")
     is_special = models.BooleanField(default=False, verbose_name="বিশেষ পণ্য")
     season = models.CharField(max_length=20, choices=SEASON_CHOICES, default='Year-round', verbose_name="মৌসুম")
+    product_tags = models.ManyToManyField(Tag, blank=True, related_name='products', verbose_name="ট্যাগসমূহ")
 
     def __str__(self):
         return self.name

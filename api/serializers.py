@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, Order, OrderItem, Article, ContactMessage
+from .models import Category, Product, Order, OrderItem, Article, ContactMessage, Tag
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -8,9 +8,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name', 'color']
+
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
     image = serializers.SerializerMethodField()
+    tags = TagSerializer(source='product_tags', many=True, read_only=True)
 
     class Meta:
         model = Product
